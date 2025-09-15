@@ -1,50 +1,167 @@
 ---
-import BaseHead from '../components/BaseHead.astro';
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
-import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+/**
+ * src/pages/index.astro
+ * Landing simple para Fressia Perfumería usando Astro.
+ * Si ya tienes componentes Header/Footer del template, puedes mantenerlos
+ * o comentar las líneas de import y usar los tuyos.
+ */
+// import Header from '../components/Header.astro'
+// import Footer from '../components/Footer.astro'
+
+// 👉 EDITA ESTOS LINKS
+const LINKS = {
+  kyte: 'https://fressia-perfumeria.kyte.site/es',
+  whatsapp: 'https://wa.me/57300XXXXXXX?text=Hola%20Fressia%20Perfumer%C3%ADa%2C%20quiero%20informaci%C3%B3n%20%F0%9F%92%8C',
+  instagram: 'https://instagram.com/tu_usuario',
+  facebook: 'https://facebook.com/tu_pagina',
+  tiktok: 'https://www.tiktok.com/@tu_usuario'
+};
 ---
 
 <!doctype html>
-<html lang="en">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-	</head>
-	<body>
-		<Header />
-		<main>
-			<h1>🧑‍🚀 Hello, Astronaut!</h1>
-			<p>
-				Welcome to the official <a href="https://astro.build/">Astro</a> blog starter template. This
-				template serves as a lightweight, minimally-styled starting point for anyone looking to build
-				a personal website, blog, or portfolio with Astro.
-			</p>
-			<p>
-				This template comes with a few integrations already configured in your
-				<code>astro.config.mjs</code> file. You can customize your setup with
-				<a href="https://astro.build/integrations">Astro Integrations</a> to add tools like Tailwind,
-				React, or Vue to your project.
-			</p>
-			<p>Here are a few ideas on how to get started with the template:</p>
-			<ul>
-				<li>Edit this page in <code>src/pages/index.astro</code></li>
-				<li>Edit the site header items in <code>src/components/Header.astro</code></li>
-				<li>Add your name to the footer in <code>src/components/Footer.astro</code></li>
-				<li>Check out the included blog posts in <code>src/content/blog/</code></li>
-				<li>Customize the blog post page layout in <code>src/layouts/BlogPost.astro</code></li>
-			</ul>
-			<p>
-				Have fun! If you get stuck, remember to <a href="https://docs.astro.build/"
-					>read the docs
-				</a> or <a href="https://astro.build/chat">join us on Discord</a> to ask questions.
-			</p>
-			<p>
-				Looking for a blog template with a bit more personality? Check out <a
-					href="https://github.com/Charca/astro-blog-template"
-					>astro-blog-template
-				</a> by <a href="https://twitter.com/Charca">Maxi Ferreira</a>.
-			</p>
-		</main>
-		<Footer />
-	</body>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Fressia Perfumería & Accesorios</title>
+    <meta
+      name="description"
+      content="Fragancias únicas, réplicas 1.1 y perfumes por onzas. También joyería, gorras, gafas y camisetas deportivas. Envíos desde Granada (Meta) y Villavicencio."
+    />
+    <link rel="icon" href="/favicon.svg" />
+    <style>
+      :root{
+        --primary:#e60073;      /* magenta elegante */
+        --primary-2:#b30059;
+        --bg:#fff7fb;           /* fondo muy claro rosado */
+        --text:#222;
+        --muted:#6b6b6b;
+        --card:#ffffffcc;
+      }
+      *{box-sizing:border-box}
+      body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,'Helvetica Neue',Arial,'Noto Sans','Apple Color Emoji','Segoe UI Emoji';}
+      a{color:inherit;text-decoration:none}
+      .container{max-width:1100px;margin:0 auto;padding:20px}
+      header.hero{
+        display:grid; gap:18px; align-items:center; padding:48px 20px 24px;
+        background: radial-gradient(1200px 600px at 10% -20%, #ffd1ea 0%, transparent 55%),
+                    radial-gradient(900px 400px at 100% 0%, #ffe6f4 0%, transparent 60%);
+      }
+      .badge{display:inline-block; padding:6px 10px; border-radius:999px; background:#fff; border:1px solid #eee; color:var(--primary); font-weight:600; font-size:12px}
+      .brand{display:flex; gap:14px; align-items:center}
+      .brand img{width:56px;height:56px;object-fit:cover;border-radius:12px; box-shadow:0 10px 30px #0000000f}
+      h1{font-size:clamp(28px, 4.2vw, 44px); line-height:1.05; margin:0}
+      p.lead{color:#444; font-size:clamp(16px, 2.2vw, 18px); margin:6px 0 0}
+      .cta{display:flex; flex-wrap:wrap; gap:12px; margin-top:18px}
+      .btn{
+        padding:14px 18px; border-radius:12px; font-weight:700; display:inline-flex; gap:10px; align-items:center;
+        background:var(--primary); color:#fff; border:2px solid var(--primary); transition:all .2s ease;
+      }
+      .btn:hover{transform:translateY(-1px); background:var(--primary-2); border-color:var(--primary-2)}
+      .btn.secondary{background:#fff; color:var(--primary); border-color:#ffe3f1}
+      .grid{
+        display:grid; gap:16px; margin:28px 0; grid-template-columns:repeat(12, 1fr);
+      }
+      .card{
+        grid-column:span 12; background:var(--card); backdrop-filter: blur(6px);
+        border:1px solid #f2cfe1; padding:18px; border-radius:16px; box-shadow:0 10px 30px #f7cbe21a;
+      }
+      @media (min-width:720px){
+        .card{grid-column:span 4}
+      }
+      .card h3{margin:0 0 6px; font-size:18px}
+      .muted{color:var(--muted)}
+      .social{
+        display:flex; gap:10px; margin-top:12px; flex-wrap:wrap;
+      }
+      .social a{
+        display:inline-flex; gap:8px; align-items:center; padding:10px 14px; border-radius:12px; background:#fff; border:1px solid #eee; font-weight:600;
+      }
+      footer{margin:40px 0 20px; color:var(--muted); font-size:14px}
+      iframe.catalog{width:100%; height:900px; border:0; border-radius:16px; background:#fff}
+      .section{padding:8px 0 24px}
+      .center{text-align:center}
+    </style>
+  </head>
+  <body>
+    <header class="hero">
+      <div class="container">
+        <span class="badge">Fressia Perfumería & Accesorios</span>
+        <div class="brand">
+          <!-- Reemplaza por tu logo en /public/logo.png -->
+          <img src="/logo.png" alt="Fressia Perfumería" />
+          <div>
+            <h1>Fragancias que se sienten — precios que enamoran</h1>
+            <p class="lead">Réplicas 1.1, perfumes por onzas y colecciones árabes. Además, joyería, gorras, gafas y camisetas deportivas.</p>
+          </div>
+        </div>
+
+        <div class="cta">
+          <a class="btn" href={LINKS.kyte} target="_blank" rel="noopener">
+            <!-- ícono bolsa -->
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden><path d="M7 7V6a5 5 0 0 1 10 0v1" stroke="currentColor" stroke-width="1.8"/><path d="M5 7h14l-1 12a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 7Z" stroke="currentColor" stroke-width="1.8"/></svg>
+            Ver catálogo
+          </a>
+          <a class="btn secondary" href={LINKS.whatsapp} target="_blank" rel="noopener">
+            <!-- ícono whatsapp -->
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden><path d="M20.5 10.5a8.5 8.5 0 1 1-3.02-6.52" stroke="currentColor" stroke-width="1.8"/><path d="M8.5 19.5 5 21l1.5-3.5" stroke="currentColor" stroke-width="1.8"/><path d="M8 8c0 5 8 9 8 6.5 0-.5-.5-1-1.5-1.5" stroke="currentColor" stroke-width="1.8"/></svg>
+            Pedir por WhatsApp
+          </a>
+        </div>
+
+        <div class="social">
+          <a href={LINKS.instagram} target="_blank" rel="noopener" aria-label="Instagram">
+            <!-- ícono -->
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="3.5" stroke="currentColor" stroke-width="1.6"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor"/></svg>
+            Instagram
+          </a>
+          <a href={LINKS.facebook} target="_blank" rel="noopener" aria-label="Facebook">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden><path d="M14 9h3V6h-3c-1.7 0-3 1.3-3 3v3H8v3h3v6h3v-6h3l1-3h-4V9c0-.6.4-1 1-1Z" fill="currentColor"/></svg>
+            Facebook
+          </a>
+          <a href={LINKS.tiktok} target="_blank" rel="noopener" aria-label="TikTok">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden><path d="M16 3v3.2a6.8 6.8 0 0 0 4 1.3V11a9 9 0 1 1-9-9h2v3a6 6 0 1 0 6 6V7.5A9.5 9.5 0 0 1 16 6V3Z" fill="currentColor"/></svg>
+            TikTok
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <section class="section">
+      <div class="container">
+        <div class="grid">
+          <div class="card">
+            <h3>Réplicas 1.1</h3>
+            <p class="muted">Calidad top, aromas duraderos y el mejor precio.</p>
+          </div>
+          <div class="card">
+            <h3>Por onzas</h3>
+            <p class="muted">Decants 5/10/30/60/100 ml. ¡Arma tu set favorito!</p>
+          </div>
+          <div class="card">
+            <h3>Accesorios & más</h3>
+            <p class="muted">Joyería 18K laminado, gorras premium, gafas y camisetas.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- OPCIONAL: embeber catálogo Kyte dentro de tu dominio (útil para navegación rápida)
+         Si prefieres solo abrir en otra pestaña, puedes borrar este bloque. -->
+    <section class="section">
+      <div class="container">
+        <h2 class="center">Catálogo en línea</h2>
+        <p class="center muted">Si no carga correctamente en tu dispositivo, usa el botón "Ver catálogo".</p>
+        <iframe class="catalog" src={LINKS.kyte} loading="lazy"></iframe>
+      </div>
+    </section>
+
+    <footer>
+      <div class="container center">
+        <div>© {new Date().getFullYear()} Fressia Perfumería & Accesorios · Granada (Meta) & Villavicencio</div>
+        <div class="muted">Atención por WhatsApp · Envíos nacionales</div>
+      </div>
+    </footer>
+  </body>
 </html>
+
